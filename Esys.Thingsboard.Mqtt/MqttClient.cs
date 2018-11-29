@@ -13,11 +13,11 @@ namespace Esys.Thingsboard.Mqtt
 {
     public class MqttClient
     {
-        public MqttClient(string accessToken, string server, int? port = null)
+        readonly IMqttClientFactory factory;
+
+        public MqttClient(IMqttClientFactory factory = null)
         {
-            AccessToken = accessToken;
-            Server = server;
-            Port = port;
+            this.factory = factory ?? new MqttFactory();
         }
 
         public string AccessToken { get; set; }
@@ -25,6 +25,8 @@ namespace Esys.Thingsboard.Mqtt
         public string Server { get; set; }
 
         public int? Port { get; set; }
+
+        public bool UseTls { get; set; }
 
         readonly SemaphoreSlim clientLock = new SemaphoreSlim(1, 1);
 
@@ -41,10 +43,10 @@ namespace Esys.Thingsboard.Mqtt
                         .WithClientId(new Guid().ToString())
                         .WithTcpServer(Server, Port)
                         .WithCredentials(AccessToken)
-                        .WithTls()
+                        .WithTls(new MqttClientOptionsBuilderTlsParameters { UseTls = UseTls })
                         .Build())
                     .Build();
-                client = new MqttFactory().CreateManagedMqttClient();
+                client = factory.CreateManagedMqttClient();
                 await client.StartAsync(options);
             }
             finally
