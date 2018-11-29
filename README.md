@@ -1,3 +1,3 @@
 # Esys Thingsboard Client
 
-HTTP and MQTT Api client for C# .Net Standard 2.0
+.Net HTTP and MQTT Api client for Thingsboard.io.
