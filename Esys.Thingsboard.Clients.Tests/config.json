@@ -1,0 +1,5 @@
+{
+  "BaseUrl": "https://demo.thingsboard.io",
+  "Username": "tenant@thingsboard.org",
+  "Password": "tenant"
+}
