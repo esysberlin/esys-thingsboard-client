@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Esys.Thingsboard.Mqtt.Api.Models.Device
 {
-    public class Attributes : KeyValueContent, ITopicMessage
+    public class Attributes : KeyValueContent, IMessage
     {
         public string Topic => "v1/devices/me/attributes";
     }

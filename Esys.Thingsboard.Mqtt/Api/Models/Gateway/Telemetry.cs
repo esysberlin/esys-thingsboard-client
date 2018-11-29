@@ -7,7 +7,7 @@ using System.Text;
 namespace Esys.Thingsboard.Mqtt.Api.Models.Gateway
 {
     [JsonDictionary]
-    public class Telemetry : Dictionary<string, List<TelemetryData>>, ITopicMessage
+    public class Telemetry : Dictionary<string, List<TelemetryData>>, IMessage
     {
         public string Topic => "v1/gateway/telemetry";
     }

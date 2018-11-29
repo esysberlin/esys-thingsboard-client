@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Esys.Thingsboard.Mqtt.Api.Models.Gateway
 {
-    public class Connect : ITopicMessage
+    public class Connect : IMessage
     {
         public string Topic => "v1/gateway/connect";
 

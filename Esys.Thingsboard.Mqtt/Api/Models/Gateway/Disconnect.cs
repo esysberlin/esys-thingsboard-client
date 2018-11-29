@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Esys.Thingsboard.Mqtt.Api.Models.Gateway
 {
-    public class Disconnect : ITopicMessage
+    public class Disconnect : IMessage
     {
         public string Topic => "v1/gateway/disconnect";
 

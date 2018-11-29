@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Esys.Thingsboard.Mqtt.Api
 {
-    public interface ITopicMessage
+    public interface IMessage
     {
         [JsonIgnore]
         string Topic { get; }

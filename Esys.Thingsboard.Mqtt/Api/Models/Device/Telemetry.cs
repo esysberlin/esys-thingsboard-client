@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Esys.Thingsboard.Mqtt.Api.Models.Device
 {
-    public class Telemetry : TelemetryData, ITopicMessage
+    public class Telemetry : TelemetryData, IMessage
     {
         public string Topic => "v1/devices/me/telemetry";
     }
