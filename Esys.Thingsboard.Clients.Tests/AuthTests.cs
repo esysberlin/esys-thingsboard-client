@@ -8,25 +8,8 @@ using Xunit;
 
 namespace Esys.Thingsboard.Clients.Tests
 {
-    public class AuthTests
+    public class AuthTests : HttpClientTests
     {
-        static readonly IConfiguration configuration;
-
-        static AuthTests()
-        {
-            configuration = new ConfigurationBuilder()
-                .AddJsonFile("config.json")
-                .AddJsonFile("config.local.json", optional: true)
-                .Build();
-        }
-
-        readonly HttpClient httpClient;
-
-        public AuthTests()
-        {
-            httpClient = new HttpClient { BaseAddress = new Uri(configuration["BaseUrl"]) };
-        }
-
         [Theory]
         [InlineData("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzeXNhZG1pbkB0aGluZ3Nib2FyZC5vcmciLCJzY29wZXMiOlsiU1lTX0FETUlOIl0sInVzZXJJZCI6Ijg3YmUzYTUwLWQ3OTUtMTFlOC1hZDFkLTcxODk4YjIyY2I3NCIsImVuYWJsZWQiOnRydWUsImlzUHVibGljIjpmYWxzZSwidGVuYW50SWQiOiIxMzgxNDAwMC0xZGQyLTExYjItODA4MC04MDgwODA4MDgwODAiLCJjdXN0b21lcklkIjoiMTM4MTQwMDAtMWRkMi0xMWIyLTgwODAtODA4MDgwODA4MDgwIiwiaXNzIjoidGhpbmdzYm9hcmQuaW8iLCJpYXQiOjE1NDM0MDkyMjAsImV4cCI6MTU0MzQxMDEyMH0.TM4uP5WbDP4HNfIKAX3wehUMReHPYhnilcJw8HItY4sQbUbWSR-We8-VFrrj217gSXLDiYfH7OGAnPG8Bl0IJw", "thingsboard.io", "sysadmin@thingsboard.org")]
         private static void JwtTokenTest(string token, string issuer, string subject)
