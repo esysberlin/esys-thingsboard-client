@@ -1,6 +1,7 @@
 ﻿using Esys.Thingsboard.Mqtt.Api;
 using MQTTnet;
 using MQTTnet.Client;
+using MQTTnet.Diagnostics;
 using MQTTnet.Extensions.ManagedClient;
 using Newtonsoft.Json;
 using System;
@@ -80,7 +81,7 @@ namespace Esys.Thingsboard.Mqtt
                 var mqttMessage = new MqttApplicationMessageBuilder()
                     .WithTopic(message.Topic)
                     .WithPayload(JsonConvert.SerializeObject(message))
-                    .WithExactlyOnceQoS()
+                    //.WithExactlyOnceQoS()     // Fails with exception and disconnect!
                     .Build();
                 await client.PublishAsync(mqttMessage);
             }
