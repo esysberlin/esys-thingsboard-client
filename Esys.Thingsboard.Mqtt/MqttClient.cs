@@ -41,7 +41,7 @@ namespace Esys.Thingsboard.Mqtt
                 var options = new ManagedMqttClientOptionsBuilder()
                     .WithAutoReconnectDelay(TimeSpan.FromSeconds(10))
                     .WithClientOptions(new MqttClientOptionsBuilder()
-                        .WithClientId(new Guid().ToString())
+                        .WithClientId(Guid.NewGuid().ToString())
                         .WithTcpServer(Server, Port)
                         .WithCredentials(AccessToken)
                         .WithTls(new MqttClientOptionsBuilderTlsParameters { UseTls = UseTls })
