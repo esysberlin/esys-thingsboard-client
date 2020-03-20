@@ -1,14 +1,11 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Esys.Thingsboard.Clients
 {
     public partial class AuthClient : IAuthClient
     {
-        public async Task<LoginResponse> LoginAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<LoginResponse> LoginAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/auth/login");
@@ -24,7 +21,7 @@ namespace Esys.Thingsboard.Clients
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(loginRequest, _settings.Value));
+                    var content_ = new System.Net.Http.StringContent(JsonConvert.SerializeObject(loginRequest, _settings.Value));
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
@@ -53,7 +50,7 @@ namespace Esys.Thingsboard.Clients
                             var result_ = default(LoginResponse);
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse>(responseData_, _settings.Value);
+                                result_ = JsonConvert.DeserializeObject<LoginResponse>(responseData_, _settings.Value);
                                 return result_;
                             }
                             catch (System.Exception exception_)
@@ -86,7 +83,7 @@ namespace Esys.Thingsboard.Clients
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
 
-                        return default(LoginResponse);
+                        return default;
                     }
                     finally
                     {

@@ -1,5 +1,4 @@
 ﻿using Esys.Thingsboard.Mqtt.Api;
-using Esys.Thingsboard.Mqtt.Api.Models.Device;
 using Esys.Thingsboard.Mqtt.Api.Models.Gateway;
 using Esys.Thingsboard.Mqtt.Api.Models.Shared;
 using Moq;
@@ -9,7 +8,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -17,12 +15,10 @@ namespace Esys.Thingsboard.Mqtt.Tests
 {
     public partial class MqttClientTests : ConfigurableTests
     {
-        readonly Mock<IMqttClientFactory> moqIMqttClientFactory;
-
-        readonly MqttClient client;
-
-        int connectedCount, disconnectedCount;
-        IEnumerable<MqttApplicationMessage> publishedMessages;
+        private readonly Mock<IMqttClientFactory> moqIMqttClientFactory;
+        private readonly MqttClient client;
+        private int connectedCount, disconnectedCount;
+        private IEnumerable<MqttApplicationMessage> publishedMessages;
 
         public MqttClientTests()
         {
@@ -70,7 +66,7 @@ namespace Esys.Thingsboard.Mqtt.Tests
             await client.SendAsync(message);
             await Task.Delay(100);
             var expected = new (string, string)[] { (message.Topic, JsonConvert.SerializeObject(message)) };
-            var actual = publishedMessages.Select(m => (Topic: m.Topic, m.ConvertPayloadToString()));
+            var actual = publishedMessages.Select(m => (m.Topic, m.ConvertPayloadToString()));
             Assert.Equal(expected, actual);
         }
 
@@ -78,7 +74,7 @@ namespace Esys.Thingsboard.Mqtt.Tests
         [MemberData(nameof(SendTestData))]
         public async Task SendRealTest(IMessage message)
         {
-            int serverPort = Convert.ToInt32(configuration["ServerPort"]);
+            var serverPort = Convert.ToInt32(configuration["ServerPort"]);
             var server = new MqttTestServer { Port = serverPort };
             await server.StartAsync();
             try
@@ -88,7 +84,7 @@ namespace Esys.Thingsboard.Mqtt.Tests
                 await client.SendAsync(message);
                 await Task.Delay(1000);
                 var expected = new (string, string)[] { (message.Topic, JsonConvert.SerializeObject(message)) };
-                var actual = server.AcceptedMessages.Select(m => (Topic: m.Topic, m.ConvertPayloadToString()));
+                var actual = server.AcceptedMessages.Select(m => (m.Topic, m.ConvertPayloadToString()));
                 Assert.Equal(expected, actual);
             }
             finally

@@ -1,23 +1,20 @@
-﻿using Microsoft.Extensions.Configuration;
-using MQTTnet;
+﻿using MQTTnet;
 using MQTTnet.Server;
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Esys.Thingsboard.Mqtt.Tests
 {
     public class MqttTestServer
     {
-        IMqttServer mqttServer;
+        private IMqttServer mqttServer;
 
         public int? Port { get; set; }
 
-        ConcurrentBag<MqttApplicationMessage> acceptedMessages = new ConcurrentBag<MqttApplicationMessage>();
+        private readonly ConcurrentBag<MqttApplicationMessage> acceptedMessages = new ConcurrentBag<MqttApplicationMessage>();
 
-        public IEnumerable<MqttApplicationMessage> AcceptedMessages { get => acceptedMessages.ToArray(); }
+        public IEnumerable<MqttApplicationMessage> AcceptedMessages => acceptedMessages.ToArray();
 
         public async Task StartAsync()
         {
@@ -32,9 +29,6 @@ namespace Esys.Thingsboard.Mqtt.Tests
             await mqttServer.StartAsync(options);
         }
 
-        public async Task StopAsync()
-        {
-            await mqttServer.StopAsync();
-        }
+        public async Task StopAsync() => await mqttServer.StopAsync();
     }
 }

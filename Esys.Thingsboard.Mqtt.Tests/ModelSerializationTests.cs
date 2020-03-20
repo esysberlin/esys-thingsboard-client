@@ -1,4 +1,3 @@
-using Esys.Thingsboard.Mqtt.Api.Models.Device;
 using Esys.Thingsboard.Mqtt.Api.Models.Gateway;
 using Esys.Thingsboard.Mqtt.Api.Models.Shared;
 using Newtonsoft.Json;

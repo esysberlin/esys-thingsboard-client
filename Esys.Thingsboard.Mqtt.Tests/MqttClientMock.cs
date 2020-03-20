@@ -8,11 +8,9 @@ namespace Esys.Thingsboard.Mqtt.Tests
 {
     public partial class MqttClientTests
     {
-        class MqttClientMock : IMqttClient
+        private class MqttClientMock : IMqttClient
         {
-            bool connected;
-
-            public bool IsConnected => connected;
+            public bool IsConnected { get; private set; }
 
             public event EventHandler<MqttClientConnectedEventArgs> Connected;
 
@@ -22,15 +20,15 @@ namespace Esys.Thingsboard.Mqtt.Tests
 
             public Task<MqttClientConnectResult> ConnectAsync(IMqttClientOptions options)
             {
-                connected = true;
+                IsConnected = true;
                 Connected?.Invoke(this, new MqttClientConnectedEventArgs(false));
                 return Task.FromResult(new MqttClientConnectResult(false));
             }
 
             public Task DisconnectAsync()
             {
-                var wasConnected = connected;
-                connected = false;
+                var wasConnected = IsConnected;
+                IsConnected = false;
                 Disconnected?.Invoke(this, new MqttClientDisconnectedEventArgs(wasConnected, null));
                 return Task.CompletedTask;
             }
@@ -39,9 +37,9 @@ namespace Esys.Thingsboard.Mqtt.Tests
             {
             }
 
-            List<MqttApplicationMessage> publishedMessages = new List<MqttApplicationMessage>();
+            private readonly List<MqttApplicationMessage> publishedMessages = new List<MqttApplicationMessage>();
 
-            public IEnumerable<MqttApplicationMessage> PublishedMessages { get => publishedMessages; }
+            public IEnumerable<MqttApplicationMessage> PublishedMessages => publishedMessages;
 
             public Task PublishAsync(MqttApplicationMessage applicationMessage)
             {
@@ -49,15 +47,9 @@ namespace Esys.Thingsboard.Mqtt.Tests
                 return Task.CompletedTask;
             }
 
-            public Task<IList<MqttSubscribeResult>> SubscribeAsync(IEnumerable<TopicFilter> topicFilters)
-            {
-                return Task.FromResult(new MqttSubscribeResult[0] as IList<MqttSubscribeResult>);
-            }
+            public Task<IList<MqttSubscribeResult>> SubscribeAsync(IEnumerable<TopicFilter> topicFilters) => Task.FromResult(new MqttSubscribeResult[0] as IList<MqttSubscribeResult>);
 
-            public Task UnsubscribeAsync(IEnumerable<string> topics)
-            {
-                return Task.CompletedTask;
-            }
+            public Task UnsubscribeAsync(IEnumerable<string> topics) => Task.CompletedTask;
         }
     }
 }

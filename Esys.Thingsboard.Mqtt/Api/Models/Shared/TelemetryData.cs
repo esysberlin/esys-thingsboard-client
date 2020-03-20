@@ -1,14 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Esys.Thingsboard.Mqtt.Api.Models.Shared
 {
     public class TelemetryData
     {
         [JsonProperty("ts", Order = 1)]
-        long ts;
+        private long ts;
 
         [JsonIgnore]
         public DateTimeOffset Timestamp
